@@ -30,7 +30,6 @@ api = tp.API(auth, wait_on_rate_limit=True)
     #print("friends_count: " + str(user_account.friends_count))
     #print("followers_count: " + str(user_account.followers_count))
     #print("\n")
-    #print("\n")
 
 def get_latest_tweet(account):
     tweets = api.user_timeline(screen_name=account,
