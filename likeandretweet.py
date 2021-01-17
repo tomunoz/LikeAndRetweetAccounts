@@ -71,7 +71,7 @@ def main():
     while True:
         tweets = get_latest_tweet(account_to_like)
         like_the_tweets(tweets)
-        print("Starting new minujte")
+        print("Starting new hour")
         time.sleep(3600)
 
 
