@@ -57,6 +57,7 @@ def like_the_tweets(tweets):
                 #print("ID: {}".format(tweet.id))
                 #print(tweet.full_text)
                 #print("\n")
+                print("Liked a tweet.")
             except:
                 pass
                 #print("couldn't like the tweet ", tweet.id)
