@@ -3,6 +3,7 @@ from datetime import date
 import time
 import os
 from os import environ
+import pandas as pd
 
 from tweepy import OAuthHandler
 from tweepy import API
@@ -25,33 +26,25 @@ def create_api():
     return api
 
 
-#def get_target(account):
-    #user_account = api.get_user(account)
-    #print("name: " + user_account.name)
-    #print("screen_name: " + user_account.screen_name)
-    #print("description: " + user_account.description)
-    #print("statuses_count: " + str(user_account.statuses_count))
-    #print("friends_count: " + str(user_account.friends_count))
-    #print("followers_count: " + str(user_account.followers_count))
-    #print("\n")
+# retrieve list of twitter accounts
+def get_accounts():
+    twitter_accounts = ""
+    twitter_accounts = pd.read_csv("TwitterAccounts.csv")
+    accounts = twitter_accounts.values.tolist()
+    return accounts
 
+
+# retrieve the last xx tweets for the twitter account
 def get_latest_tweet(account, api):
     tweets = api.user_timeline(screen_name=account,
                            # 200 is the maximum allowed count
                            count=60,
                            include_rts = False,
-                           # Necessary to keep full_text 
-                           # otherwise only the first 140 words are extracted
-                           tweet_mode = 'extended'
-                           )
-    #for item in tweets:
-    #    print("ID: {}".format(item.id))
-    #    print(item.created_at)
-    #    print(item.full_text)
-    #    print("\n")
+                           tweet_mode = 'extended')
     return tweets
 
 
+# like the tweets that haven't been liked
 def like_the_tweets(tweets, api):
     for tweet in tweets:
         tweet_status = api.get_status(tweet.id)
@@ -59,9 +52,6 @@ def like_the_tweets(tweets, api):
         if liked == False:
             try:
                 api.create_favorite(tweet.id)
-                #print("ID: {}".format(tweet.id))
-                #print(tweet.full_text)
-                #print("\n")
                 print("Liked a tweet.")
             except:
                 pass
@@ -69,12 +59,12 @@ def like_the_tweets(tweets, api):
 
 
 def main():
-    account_to_like = "TriangleUlty"
-    #get_target(account_to_like)
     while True:
+        accounts = get_accounts()
         api = create_api()
-        tweets = get_latest_tweet(account_to_like, api)
-        like_the_tweets(tweets, api)
+        for account_to_like in accounts:
+            tweets = get_latest_tweet(account_to_like, api)
+            like_the_tweets(tweets, api)
         print("Starting new hour")
         time.sleep(3600)
 
