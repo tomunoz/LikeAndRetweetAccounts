@@ -10,16 +10,20 @@ from tweepy import Cursor
 from collections import Counter
 import sys
 
-# credentials to login to twitter api
-CONSUMER_KEY = environ['CONSUMER_KEY']
-CONSUMER_SECRET = environ['CONSUMER_SECRET']
 
-ACCESS_KEY = environ['ACCESS_KEY']
-ACCESS_SECRET = environ['ACCESS_SECRET']
+def create_api():
+    # credentials to login to twitter api
+    CONSUMER_KEY = environ['CONSUMER_KEY']
+    CONSUMER_SECRET = environ['CONSUMER_SECRET']
+    ACCESS_KEY = environ['ACCESS_KEY']
+    ACCESS_SECRET = environ['ACCESS_SECRET']
+    
+    # create the api
+    auth = tp.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+    auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
+    api = tp.API(auth, wait_on_rate_limit=True)
+    return api
 
-auth = tp.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
-api = tp.API(auth, wait_on_rate_limit=True)
 
 #def get_target(account):
     #user_account = api.get_user(account)
@@ -31,7 +35,7 @@ api = tp.API(auth, wait_on_rate_limit=True)
     #print("followers_count: " + str(user_account.followers_count))
     #print("\n")
 
-def get_latest_tweet(account):
+def get_latest_tweet(account, api):
     tweets = api.user_timeline(screen_name=account,
                            # 200 is the maximum allowed count
                            count=60,
@@ -47,7 +51,8 @@ def get_latest_tweet(account):
     #    print("\n")
     return tweets
 
-def like_the_tweets(tweets):
+
+def like_the_tweets(tweets, api):
     for tweet in tweets:
         tweet_status = api.get_status(tweet.id)
         liked = tweet_status.favorited
@@ -60,9 +65,6 @@ def like_the_tweets(tweets):
                 print("Liked a tweet.")
             except:
                 pass
-                #print("couldn't like the tweet ", tweet.id)
-        #else:
-            #print("Tweet already like ", tweet.id)
     return
 
 
@@ -70,8 +72,9 @@ def main():
     account_to_like = "TriangleUlty"
     #get_target(account_to_like)
     while True:
-        tweets = get_latest_tweet(account_to_like)
-        like_the_tweets(tweets)
+        api = create_api()
+        tweets = get_latest_tweet(account_to_like, api)
+        like_the_tweets(tweets, api)
         print("Starting new hour")
         time.sleep(3600)
 
