@@ -1,3 +1,5 @@
+
+import pandas as pd
 import tweepy as tp
 from datetime import date
 import time
@@ -9,7 +11,6 @@ from tweepy import API
 from tweepy import Cursor
 from collections import Counter
 import sys
-import pandas as pd
 
 
 def create_api():
