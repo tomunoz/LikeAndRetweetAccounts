@@ -32,7 +32,6 @@ def get_accounts():
     twitter_accounts = ""
     twitter_accounts = pd.read_csv("TwitterAccounts.csv")
     accounts = twitter_accounts.values.tolist()
-    print(accounts)
     return accounts
 
 
@@ -44,7 +43,7 @@ def get_latest_tweet(account, api):
 
 # like the tweets that haven't been liked
 def like_the_tweets(tweets, api):
-    for tweet in tweets:
+    for tweet in reversed(tweets):
         tweet_status = api.get_status(tweet.id)
         liked = tweet_status.favorited
         if liked == False:
