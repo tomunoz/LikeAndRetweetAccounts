@@ -3,13 +3,13 @@ from datetime import date
 import time
 import os
 from os import environ
-import pandas as pd
 
 from tweepy import OAuthHandler
 from tweepy import API
 from tweepy import Cursor
 from collections import Counter
 import sys
+import pandas as pd
 
 
 def create_api():
