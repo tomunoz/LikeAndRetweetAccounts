@@ -60,11 +60,9 @@ def main():
     while True:
         accounts = get_accounts()
         api = create_api()
-        i = 0
         for account_to_like in accounts:
-            tweets = get_latest_tweet(account_to_like[i], api)
+            tweets = get_latest_tweet(account_to_like, api)
             like_the_tweets(tweets, api)
-            i += 1
         print("Starting new hour")
         time.sleep(3600)
 
