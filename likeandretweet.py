@@ -32,16 +32,13 @@ def get_accounts():
     twitter_accounts = ""
     twitter_accounts = pd.read_csv("TwitterAccounts.csv")
     accounts = twitter_accounts.values.tolist()
+    print(accounts)
     return accounts
 
 
 # retrieve the last xx tweets for the twitter account
 def get_latest_tweet(account, api):
-    tweets = api.user_timeline(screen_name=account,
-                           # 200 is the maximum allowed count
-                           count=60,
-                           include_rts = False,
-                           tweet_mode = 'extended')
+    tweets = api.user_timeline(screen_name=account, count=60, include_rts = False, tweet_mode = 'extended')
     return tweets
 
 
