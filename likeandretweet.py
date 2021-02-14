@@ -64,7 +64,7 @@ def main():
             like_the_tweets(tweets, api)
         print("Starting new hour")
         #time.sleep(3600)
-        exit()
+        break
     exit()
 
 
