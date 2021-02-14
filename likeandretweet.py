@@ -63,7 +63,8 @@ def main():
             tweets = get_latest_tweet(account_to_like[0], api)
             like_the_tweets(tweets, api)
         print("Starting new hour")
-        time.sleep(3600)
+        #time.sleep(3600)
+        exit()
 
 
 if __name__ == '__main__':
