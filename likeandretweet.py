@@ -65,6 +65,7 @@ def main():
         print("Starting new hour")
         #time.sleep(3600)
         exit()
+    exit()
 
 
 if __name__ == '__main__':
